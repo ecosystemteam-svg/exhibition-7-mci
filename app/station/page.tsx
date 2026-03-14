@@ -137,7 +137,7 @@ export default function StationPage() {
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(180deg,#dedad4,#d0ccc6)', borderRadius: '50% 50% 0 0 / 10% 10% 0 0', zIndex: 2 }} />
           <div style={{ position: 'absolute', bottom: '28%', left: '50%', transform: 'translateX(-50%)', animation: 'gwalk 5.5s ease-in-out infinite', zIndex: 3 }}>
             <div style={{ animation: 'gbob .55s ease-in-out infinite' }}>
-              <img src={GRANNY_SRC} alt="granny" style={{ height: '65vh', width: 'auto', display: 'block' }} />
+              <img src={GRANNY_SRC} alt="granny" style={{ height: '40vh', width: 'auto', display: 'block' }} />
             </div>
           </div>
         </div>
