@@ -16,7 +16,7 @@ export default function StationPage() {
   const [soundOn, setSoundOn] = useState(false)
   const slotRef = useRef(0)
   const shownIds = useRef<Set<string>>(new Set())
-  const isFirstPoll = useRef(true)
+  const pageLoadTime = useRef(new Date().toISOString())
   const audioCtxRef = useRef<AudioContext | null>(null)
   const slots = [-120, -60, 0, 60, 120]
 
@@ -27,17 +27,12 @@ export default function StationPage() {
         const json = await res.json()
         if (!json.answers || !Array.isArray(json.answers)) return
         setTotalAnswers(json.total || 0)
-        if (isFirstPoll.current) {
-          json.answers.forEach((a: any) => shownIds.current.add(a.timestamp))
-          isFirstPoll.current = false
-        } else {
-          json.answers.forEach((a: any) => {
-            if (!shownIds.current.has(a.timestamp)) {
-              shownIds.current.add(a.timestamp)
-              addWord(a.word)
-            }
-          })
-        }
+        json.answers.forEach((a: any) => {
+          if (a.timestamp > pageLoadTime.current && !shownIds.current.has(a.timestamp)) {
+            shownIds.current.add(a.timestamp)
+            addWord(a.word)
+          }
+        })
       } catch(e) { console.error('Poll error:', e) }
     }
     poll()
