@@ -18,7 +18,7 @@ export default function StationPage() {
   const shownIds = useRef<Set<string>>(new Set())
   const isFirstPoll = useRef(true)
   const audioCtxRef = useRef<AudioContext | null>(null)
-  const slots = [-200, -120, -40, 40, 120, 200]
+  const slots = [-120, -60, 0, 60, 120]
 
   useEffect(() => {
     async function poll() {
@@ -93,58 +93,64 @@ export default function StationPage() {
   }
 
   return (
-    <div style={{ height: '100vh', background: '#f4f1ee', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px 0', flexShrink: 0 }}>
-        <button onClick={toggleSound} style={{ background: soundOn ? '#1a1520' : '#f0ece6', border: '1px solid #d8d0c8', borderRadius: 20, padding: '6px 12px', fontFamily: 'inherit', fontSize: 12, cursor: 'pointer', color: soundOn ? 'white' : '#6a5a4a', display: 'flex', alignItems: 'center', gap: 5 }}>
+    <div style={{ height: '100vh', background: '#f4f1ee', display: 'flex', flexDirection: 'column', overflow: 'hidden', fontFamily: "'Helvetica Neue', sans-serif" }}>
+
+      {/* TOPBAR */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', flexShrink: 0 }}>
+        <button onClick={toggleSound} style={{ background: soundOn ? '#1a1520' : '#f0ece6', border: '1px solid #d8d0c8', borderRadius: 20, padding: '5px 12px', fontFamily: 'inherit', fontSize: 11, cursor: 'pointer', color: soundOn ? 'white' : '#6a5a4a', display: 'flex', alignItems: 'center', gap: 5 }}>
           {soundOn ? '🔊' : '🔇'} {soundOn ? 'เสียงเปิด' : 'เสียงปิด'}
         </button>
         <img src={LOGO_SRC} alt="Understand MCI" style={{ width: 80, borderRadius: 6, objectFit: 'contain' }} />
       </div>
 
-      <div style={{ textAlign: 'center', padding: '4px 20px 0', flexShrink: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 800, color: '#4a3060', letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>The Thin Line of MCI</div>
-        <div style={{ fontSize: 10, fontWeight: 500, color: '#7a5fa8', marginTop: 1 }}>Experience &amp; Observe</div>
-      </div>
+      {/* MAIN 3-COLUMN */}
+      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '280px 1fr 240px', overflow: 'hidden', minHeight: 0 }}>
 
-      <div style={{ textAlign: 'center', padding: '4px 20px 0', flexShrink: 0 }}>
-        <div style={{ background: 'white', borderRadius: 12, padding: '6px 14px', boxShadow: '0 1px 8px rgba(100,60,140,.1)', display: 'inline-block', maxWidth: 400 }}>
-          <div style={{ fontFamily: 'Georgia, serif', fontSize: 12, color: '#1a1520', lineHeight: 1.4 }}>
-            เมื่อความทรงจำเริ่มพร่าเลือน<br />ด้วย<em style={{ color: '#7a3fb8' }}>ภาวะ MCI</em><br />คุณจะสังเกตเห็นไหม?
+        {/* LEFT — title + card */}
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px 20px 20px 28px', textAlign: 'center' }}>
+          <div style={{ fontSize: 22, fontWeight: 900, color: '#4a3060', letterSpacing: '0.04em', textTransform: 'uppercase', lineHeight: 1.25, marginBottom: 6 }}>
+            The Thin Line<br />of MCI
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 500, color: '#7a5fa8', marginBottom: 16, letterSpacing: '0.02em' }}>
+            Experience &amp; Observe
+          </div>
+          <div style={{ background: 'white', borderRadius: 14, padding: '14px 18px', boxShadow: '0 2px 12px rgba(100,60,140,.1)' }}>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 15, color: '#1a1520', lineHeight: 1.65, textAlign: 'center' }}>
+              เมื่อความทรงจำเริ่มพร่าเลือน<br />
+              ด้วย<em style={{ color: '#7a3fb8' }}>ภาวะ MCI</em><br />
+              คุณจะสังเกตเห็นไหม?
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: 0 }}>
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 20 }}>
+        {/* CENTER — granny + floating words */}
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
           {words.map(w => (
-            <div key={w.id} style={{ position: 'absolute', left: `calc(50% + ${w.x}px)`, bottom: '45%', transform: 'translateX(-50%)', fontSize: 15, fontWeight: 600, color: '#4a3070', background: 'rgba(235,228,250,.97)', border: '1.5px solid rgba(120,80,180,.4)', padding: '7px 16px', borderRadius: 24, whiteSpace: 'nowrap', boxShadow: '0 2px 12px rgba(100,60,180,.2)', animation: 'wf 10s ease forwards' }}>
+            <div key={w.id} style={{ position: 'absolute', left: `calc(50% + ${w.x}px)`, bottom: '40%', transform: 'translateX(-50%)', fontSize: 14, fontWeight: 600, color: '#4a3070', background: 'rgba(235,228,250,.97)', border: '1.5px solid rgba(120,80,180,.4)', padding: '6px 14px', borderRadius: 20, whiteSpace: 'nowrap', boxShadow: '0 2px 10px rgba(100,60,180,.2)', animation: 'wf 10s ease forwards', zIndex: 20, pointerEvents: 'none' }}>
               {w.word}
             </div>
           ))}
-        </div>
-        <svg style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }} width="200" height="140" viewBox="0 0 200 140" fill="none">
-          <line x1="100" y1="0" x2="8" y2="140" stroke="#c4beb8" strokeWidth=".8" opacity=".5" />
-          <line x1="100" y1="0" x2="192" y2="140" stroke="#c4beb8" strokeWidth=".8" opacity=".5" />
-        </svg>
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '28%', background: 'linear-gradient(180deg,#dedad4,#d0ccc6)', borderRadius: '50% 50% 0 0 / 8% 8% 0 0', zIndex: 2 }} />
-        <div style={{ position: 'absolute', bottom: '26%', left: '50%', transform: 'translateX(-50%)', animation: 'gwalk 5.5s ease-in-out infinite', zIndex: 3 }}>
-          <div style={{ animation: 'gbob .55s ease-in-out infinite' }}>
-            <img src={GRANNY_SRC} alt="granny" style={{ height: '35vh', width: 'auto', display: 'block' }} />
+          <svg style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }} width="200" height="140" viewBox="0 0 200 140" fill="none">
+            <line x1="100" y1="0" x2="8" y2="140" stroke="#c4beb8" strokeWidth=".8" opacity=".5" />
+            <line x1="100" y1="0" x2="192" y2="140" stroke="#c4beb8" strokeWidth=".8" opacity=".5" />
+          </svg>
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(180deg,#dedad4,#d0ccc6)', borderRadius: '50% 50% 0 0 / 10% 10% 0 0', zIndex: 2 }} />
+          <div style={{ position: 'absolute', bottom: '28%', left: '50%', transform: 'translateX(-50%)', animation: 'gwalk 5.5s ease-in-out infinite', zIndex: 3 }}>
+            <div style={{ animation: 'gbob .55s ease-in-out infinite' }}>
+              <img src={GRANNY_SRC} alt="granny" style={{ height: '65vh', width: 'auto', display: 'block' }} />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style={{ background: 'white', borderTop: '1px solid #e0dada', padding: '10px 20px 14px', flexShrink: 0 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 8 }}>
-          <img src={QR_SRC} alt="QR" style={{ width: 100, height: 100, borderRadius: 8, border: '1px solid #e0d8d0' }} />
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#1a1520', marginTop: 6, textAlign: 'center' }}>📱 Scan QR เพื่อร่วมสังเกต</div>
-          <div style={{ fontSize: 10, color: '#9a8fa0', lineHeight: 1.55, textAlign: 'center', marginTop: 2 }}>
-            เปิดในมือถือ → เลือกอาการที่เข้าข่ายภาวะก่อนอัลไซเมอร์ (MCI)<br />หากเลือกถูก คำตอบของคุณจะลอยขึ้นเหนือคุณยายบนจอนี้
+        {/* RIGHT — QR + scan */}
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px 28px 20px 16px', gap: 12 }}>
+          <img src={QR_SRC} alt="QR" style={{ width: 110, height: 110, borderRadius: 10, border: '1px solid #d8c8f0' }} />
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#1a1520', textAlign: 'center' }}>📱 Scan QR เพื่อร่วมสังเกต</div>
+          <div style={{ fontSize: 11, color: '#9a8fa0', textAlign: 'center', lineHeight: 1.6 }}>
+            เปิดในมือถือ → เลือกอาการ<br />ที่เข้าข่ายภาวะก่อนอัลไซเมอร์ (MCI)<br />หากเลือกถูก คำตอบจะลอยขึ้นจอนี้
           </div>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
-          <div style={{ background: '#f5f0ff', border: '1px solid #d8c8f0', borderRadius: 8, padding: '6px 14px', fontSize: 10, color: '#6a3fa0', textAlign: 'center', lineHeight: 1.5 }}>🔴 กดเลือกอาการภาวะ MCI บนมือถือของคุณ</div>
-          <button onClick={() => { loadStats(); setShowStats(true) }} style={{ background: '#1a1520', color: 'white', border: 'none', borderRadius: 8, padding: '8px 14px', fontFamily: 'inherit', fontSize: 10, fontWeight: 600, cursor: 'pointer' }}>📊 ดูผลสถิติ</button>
+          <div style={{ background: '#fff0f0', border: '1px solid #ffcccc', borderRadius: 10, padding: '8px 12px', fontSize: 11, color: '#cc3333', textAlign: 'center', width: '100%' }}>🔴 กดเลือกอาการ MCI บนมือถือ</div>
+          <button onClick={() => { loadStats(); setShowStats(true) }} style={{ background: '#1a1520', color: 'white', border: 'none', borderRadius: 10, padding: '8px 12px', fontFamily: 'inherit', fontSize: 11, fontWeight: 600, cursor: 'pointer', width: '100%' }}>📊 ดูผลสถิติ</button>
         </div>
       </div>
 
@@ -183,7 +189,7 @@ export default function StationPage() {
       <style>{`
         @keyframes gwalk{0%,100%{transform:translateX(-50%);}52%{transform:translateX(calc(-50% - 14px)) rotate(-3deg);}63%{transform:translateX(calc(-50% + 14px)) rotate(3deg);}74%{transform:translateX(calc(-50% - 7px)) rotate(-1.5deg);}83%{transform:translateX(-50%) rotate(0);}}
         @keyframes gbob{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
-        @keyframes wf{0%{opacity:0;transform:translateX(-50%) translateY(0);}12%{opacity:1;transform:translateX(-50%) translateY(-30px);}80%{opacity:1;transform:translateX(-50%) translateY(-200px);}100%{opacity:0;transform:translateX(-50%) translateY(-250px);}}
+        @keyframes wf{0%{opacity:0;transform:translateX(-50%) translateY(0);}12%{opacity:1;transform:translateX(-50%) translateY(-20px);}80%{opacity:1;transform:translateX(-50%) translateY(-180px);}100%{opacity:0;transform:translateX(-50%) translateY(-220px);}}
       `}</style>
     </div>
   )
