@@ -77,20 +77,90 @@ export default function StationPage() {
     const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
     const master = ctx.createGain()
     master.gain.setValueAtTime(0, ctx.currentTime)
+
+    // Reverb via convolver
+    const convolver = ctx.createConvolver()
+    const reverbLen = ctx.sampleRate * 3
+    const reverbBuf = ctx.createBuffer(2, reverbLen, ctx.sampleRate)
+    for(let c=0;c<2;c++){
+      const d=reverbBuf.getChannelData(c)
+      for(let i=0;i<reverbLen;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/reverbLen,2)*0.4
+    }
+    convolver.buffer = reverbBuf
+    const reverbGain = ctx.createGain()
+    reverbGain.gain.value = 0.5
+    convolver.connect(reverbGain)
+    reverbGain.connect(master)
     master.connect(ctx.destination)
-    const notes = [174.61,220.00,261.63,329.63]
-    notes.forEach((freq,i)=>{
-      const o=ctx.createOscillator(); const g=ctx.createGain()
-      o.type='sine'; o.frequency.value=freq+(i*0.3); g.gain.value=0.08
-      o.connect(g); g.connect(master); o.start()
-    })
-    const drone=ctx.createOscillator(); const dg=ctx.createGain()
-    drone.type='sine'; drone.frequency.value=87.3; dg.gain.value=0.06
-    drone.connect(dg); dg.connect(master); drone.start()
-    const lfo=ctx.createOscillator(); const lg=ctx.createGain()
-    lfo.frequency.value=0.1; lg.gain.value=0.02
-    lfo.connect(lg); lg.connect(master.gain); lfo.start()
-    audioCtxRef.current=ctx; masterGainRef.current=master
+
+    // Soft piano-like notes using triangle waves + fast decay envelope
+    const chord = [261.63, 329.63, 392.00, 523.25] // C4 E4 G4 C5
+    function playChord() {
+      chord.forEach((freq, i) => {
+        const o = ctx.createOscillator()
+        const g = ctx.createGain()
+        o.type = 'triangle'
+        o.frequency.value = freq
+        const t = ctx.currentTime
+        g.gain.setValueAtTime(0, t)
+        g.gain.linearRampToValueAtTime(0.12 - i*0.02, t + 0.02)
+        g.gain.exponentialRampToValueAtTime(0.001, t + 3.5)
+        o.connect(g)
+        g.connect(convolver)
+        g.connect(master)
+        o.start(t)
+        o.stop(t + 4)
+      })
+    }
+
+    // Second softer chord (Am7) alternating
+    const chord2 = [220.00, 261.63, 329.63, 440.00] // A3 C4 E4 A4
+    function playChord2() {
+      chord2.forEach((freq, i) => {
+        const o = ctx.createOscillator()
+        const g = ctx.createGain()
+        o.type = 'triangle'
+        o.frequency.value = freq
+        const t = ctx.currentTime
+        g.gain.setValueAtTime(0, t)
+        g.gain.linearRampToValueAtTime(0.09 - i*0.015, t + 0.02)
+        g.gain.exponentialRampToValueAtTime(0.001, t + 3.5)
+        o.connect(g)
+        g.connect(convolver)
+        g.connect(master)
+        o.start(t)
+        o.stop(t + 4)
+      })
+    }
+
+    // Slow breath pad — very soft sine at low freq
+    const pad = ctx.createOscillator()
+    const padGain = ctx.createGain()
+    const padLfo = ctx.createOscillator()
+    const padLfoGain = ctx.createGain()
+    pad.type = 'sine'
+    pad.frequency.value = 130.81 // C3
+    padGain.gain.value = 0.04
+    padLfo.frequency.value = 0.08
+    padLfoGain.gain.value = 0.015
+    padLfo.connect(padLfoGain)
+    padLfoGain.connect(padGain.gain)
+    pad.connect(padGain)
+    padGain.connect(convolver)
+    padGain.connect(master)
+    pad.start(); padLfo.start()
+
+    // Schedule alternating chords every 5s
+    let toggle = false
+    playChord()
+    const iv = setInterval(() => {
+      if(!playingRef.current) return
+      toggle = !toggle
+      toggle ? playChord2() : playChord()
+    }, 5000)
+
+    audioCtxRef.current = ctx
+    masterGainRef.current = master
   }
 
   function toggleSound() {
