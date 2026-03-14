@@ -176,14 +176,18 @@ export default function StationPage() {
               <img src={GRANNY_SRC} style={{height:'42vh',width:'auto',display:'block'}} alt="granny"/>
             </div>
           </div>
+          <div style={{position:'absolute',top:16,left:'50%',transform:'translateX(-50%)',width:'80%',background:'rgba(255,255,255,.92)',border:'1px solid #e0d4f5',borderRadius:14,padding:'14px 18px',textAlign:'center',zIndex:20}}>
+            <div style={{fontSize:14,fontWeight:600,color:'#3d2460',lineHeight:1.6,marginBottom:6}}>"ทุกคนมีความลืม... แต่ลืมแบบไหนคือจุดเปลี่ยน?"</div>
+            <div style={{fontSize:11,color:'#7a5fa8',lineHeight:1.7}}>ขอเชิญคุณพิจารณาคำถาม 6 ข้อนี้ เพื่อแยกอาการของภาวะก่อนอัลไซเมอร์ (MCI)<br/>ที่แตกต่างจากการหลงลืมแบบสูงวัยและภาวะอัลไซเมอร์</div>
+            <div style={{fontSize:11,color:'#9a8fa0',marginTop:8,lineHeight:1.7,fontStyle:'italic'}}>หากคุณพบอาการที่เริ่มรบกวนชีวิต แต่ยังฝืนทำกิจวัตรได้อยู่...<br/>โปรดฝาก <strong style={{color:'#3d2460'}}>กด เลือก</strong> ข้อความนั้น</div>
+          </div>
+
           {words.map(w=>(
             <div key={w.id} style={{position:'absolute',left:`${w.x}%`,bottom:110,transform:'translateX(-50%)',fontSize:14,fontWeight:600,padding:'6px 16px',borderRadius:24,whiteSpace:'nowrap',animation:'floatUp 4s ease forwards',background:w.ok?'#E1F5EE':'#FCEBEB',color:w.ok?'#085041':'#501313',border:`1.5px solid ${w.ok?'#1D9E75':'#A32D2D'}`,pointerEvents:'none',zIndex:10}}>
               {w.word}
             </div>
           ))}
-          <div style={{position:'absolute',top:16,left:'50%',transform:'translateX(-50%)',background:'rgba(255,255,255,.85)',border:'1px solid #e0d4f5',borderRadius:12,padding:'8px 18px',textAlign:'center',zIndex:20}}>
-            <div style={{fontSize:11,color:'#7a5fa8'}}>คำตอบจะลอยขึ้นที่นี่</div>
-          </div>
+
         </div>
 
         {/* RIGHT - bar chart */}
