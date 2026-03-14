@@ -101,15 +101,14 @@ export default function StationPage() {
         <img src={LOGO_SRC} alt="Understand MCI" style={{ width: 80, borderRadius: 6, objectFit: 'contain' }} />
       </div>
 
-      <div style={{ textAlign: 'center', padding: '8px 20px 0', flexShrink: 0 }}>
-        <div style={{ fontSize: 'clamp(16px,2.8vw,26px)', fontWeight: 800, color: '#4a3060', letterSpacing: '0.08em', textTransform: 'uppercase', lineHeight: 1.2 }}>The Thin Line of MCI</div>
-        <div style={{ fontSize: 'clamp(12px,1.8vw,16px)', fontWeight: 500, color: '#7a5fa8', marginTop: 2 }}>Experience &amp; Observe</div>
-        <div style={{ fontSize: 'clamp(10px,1.4vw,13px)', color: '#9a8fa0', marginTop: 3 }}>เลือกคำตอบที่สะท้อนถึง &quot;ภาวะ MCI&quot; เส้นแบ่งบางๆ ก่อนถึงอัลไซเมอร์</div>
+      <div style={{ textAlign: 'center', padding: '4px 20px 0', flexShrink: 0 }}>
+        <div style={{ fontSize: 14, fontWeight: 800, color: '#4a3060', letterSpacing: '0.06em', textTransform: 'uppercase', lineHeight: 1.2 }}>The Thin Line of MCI</div>
+        <div style={{ fontSize: 10, fontWeight: 500, color: '#7a5fa8', marginTop: 1 }}>Experience &amp; Observe</div>
       </div>
 
-      <div style={{ textAlign: 'center', padding: '10px 20px 0', flexShrink: 0 }}>
-        <div style={{ background: 'white', borderRadius: 20, padding: '16px 28px', boxShadow: '0 2px 16px rgba(100,60,140,.1)', display: 'inline-block', maxWidth: 420 }}>
-          <div style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(17px,3.5vw,24px)', color: '#1a1520', lineHeight: 1.55 }}>
+      <div style={{ textAlign: 'center', padding: '4px 20px 0', flexShrink: 0 }}>
+        <div style={{ background: 'white', borderRadius: 12, padding: '6px 14px', boxShadow: '0 1px 8px rgba(100,60,140,.1)', display: 'inline-block', maxWidth: 400 }}>
+          <div style={{ fontFamily: 'Georgia, serif', fontSize: 12, color: '#1a1520', lineHeight: 1.4 }}>
             เมื่อความทรงจำเริ่มพร่าเลือน<br />ด้วย<em style={{ color: '#7a3fb8' }}>ภาวะ MCI</em><br />คุณจะสังเกตเห็นไหม?
           </div>
         </div>
